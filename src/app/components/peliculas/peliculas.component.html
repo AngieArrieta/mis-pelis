@@ -1,0 +1,78 @@
+<h1 class="animated fadeIn fast"> Peliculas </h1>
+<hr>
+
+<form autocomplete="off" [formGroup]="forma" (ngSubmit)='guardar()' #formPelicula='ngForm'>
+
+    <mat-form-field class="col-sm-6">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName='nombre'>
+        <mat-error *ngIf="forma.get('nombre').hasError('required')">campo <b>requerido</b> </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-6">
+        <mat-label>Seleccione categoria...</mat-label>
+        <mat-select formControlName='categoria'>
+            <mat-option *ngFor="let cat of categoriaNombres" [value]="cat">
+                {{cat}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="forma.get('categoria').hasError('required')">campo <b>requerido</b> </mat-error>
+    </mat-form-field>
+    <!--preguntar a marbelita si es mejor hacer un objeto para las cats-->
+
+    <mat-form-field class="col-sm-6">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" formControlName='precio'>
+        <span matPrefix>$&nbsp;</span>
+        <mat-error *ngIf="forma.get('precio').hasError('required')">campo <b>requerido</b> </mat-error>
+        <mat-error *ngIf="forma.get('precio').hasError('min')">debe ser <b>numero positivo</b> </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-sm-3">
+        <mat-label>Cantidad inventario</mat-label>
+        <input matInput type="number" formControlName='cantidad'>
+        <mat-error *ngIf="forma.get('cantidad').hasError('required')">campo <b>requerido</b> </mat-error>
+        <mat-error *ngIf="forma.get('cantidad').hasError('min')">debe haber <b>minimo 1</b> </mat-error>
+    </mat-form-field>
+
+
+    <!--(click)='Registrar(params)' -->
+    <br> <br>
+    <button class="col-sm-4" type="submit" mat-raised-button color="primary">Registrar</button>
+
+
+
+</form>
+
+
+
+<div class="animated fadeIn" *ngIf="peliculas.length > 0">
+    <hr>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-sm-12">
+
+
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let pelicula"> {{pelicula.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef> Categoria </th>
+            <td mat-cell *matCellDef="let pelicula"> {{pelicula.id_categoria}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef> Precio </th>
+            <td mat-cell *matCellDef="let pelicula"> {{pelicula.precio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+            <td mat-cell *matCellDef="let pelicula"> {{pelicula.cantidad_inv}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+</div>

@@ -1,0 +1,12 @@
+mat-button-toggle {
+    background-color: white;
+    width: 120px;
+    margin-bottom: 30px;
+    color: #673ab7;
+    border-radius: 4px;
+}
+
+.selected {
+    background-color: #673ab7;
+    color: white;
+}

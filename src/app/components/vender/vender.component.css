@@ -1,0 +1,12 @@
+.bloqueado {
+    color: #9c9c9c;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}

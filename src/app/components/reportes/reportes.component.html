@@ -1,0 +1,56 @@
+<h1 class="animated fadeIn fast"> Reportes </h1>
+<hr>
+
+<div [formGroup]='forma' (submit)='generarReporte()'>
+
+    <mat-form-field class="ml-sm-5 col-sm-9">
+        <mat-label>Escoja un reporte...</mat-label>
+        <mat-select formControlName='selectReporte'>
+            <mat-option *ngFor="let reporte of nombresReportes" [value]="reporte.valor">
+                {{reporte.valorMostrado}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="forma.get('selectReporte').hasError('required')">por favor escoja una opcion</mat-error>
+    </mat-form-field>
+
+    <button class="ml-sm-5 col-sm-1" type="submit" mat-raised-button color="primary" (click)='generarReporte()'>Generar</button>
+
+</div>
+
+
+<!--tablassss-->
+
+<div class="animated fadeIn" *ngIf="control == true">
+    <hr>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-sm-12">
+
+
+        <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.valor}}">
+            <th mat-header-cell *matHeaderCellDef> {{columna.titulo}} </th>
+            <td mat-cell *matCellDef="let element"> {{element[columna.valor]}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <br><br>
+    <!--graficas-->
+
+    <div class="col">
+        <div class="row">
+            <div class="col-md-6 ">
+                <mat-card>
+                    <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="labels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="legend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                </mat-card>
+            </div>
+
+            <div class="col-md-6 ">
+                <mat-card>
+                    <canvas baseChart width="400" height="400" [data]="doughnutChartData" [labels]="labels" [chartType]="doughnutChartType"></canvas>
+                </mat-card>
+            </div>
+        </div>
+    </div>

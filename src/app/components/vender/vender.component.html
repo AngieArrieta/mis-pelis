@@ -1,0 +1,79 @@
+<h1 class="animated fadeIn fast"> Vender </h1>
+<hr>
+
+<form autocomplete="off" [formGroup]="forma" (submit)='vender()'>
+
+    <mat-form-field class="col-sm-2">
+        <mat-label>ID Cliente</mat-label>
+        <input matInput formControlName='id_cliente' (keyup.enter)='buscarCliente(id_cliente.value)' #id_cliente>
+        <mat-error *ngIf="forma.get('id_cliente').hasError('required')">el campo <b>es requerido</b> </mat-error>
+    </mat-form-field>
+
+    <mat-form-field disabled class="col-sm-8 bloqueado">
+        <input style="cursor: not-allowed;" matInput formControlName='nombre_cliente' readonly>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field class="col-sm-2">
+        <mat-label>ID Pelicula</mat-label>
+        <input matInput formControlName='id_pelicula' (keyup.enter)='buscarPelicula(id_pelicula.value)' #id_pelicula>
+        <mat-error *ngIf="forma.get('id_pelicula').hasError('required')">el campo <b>es requerido</b> </mat-error>
+    </mat-form-field>
+
+    <mat-form-field disabled class="col-sm-8 bloqueado">
+        <input style="cursor: not-allowed;" matInput formControlName='nombre_pelicula' readonly>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="peliculaAux != null" class="col-sm-2 animated fadeIn fast">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" value="1" formControlName='cantidad' (keyup.enter)='calcularTotal(cantidad.value)' [min]=1 [max]='cantidadPelisAux' #cantidad>
+        <mat-error *ngIf="forma.get('cantidad').hasError('required')">el campo <b>es requerido</b> </mat-error>
+        <mat-error *ngIf="forma.get('cantidad').hasError('min')">el campo contener <b>al menos 1 </b> </mat-error>
+        <mat-error *ngIf="forma.get('cantidad').hasError('max')">la cantidad sobrepasa la exitencia, <b>¡quedan </b> {{cantidadPelisAux}} peliculas! </mat-error>
+    </mat-form-field>
+
+    <hr>
+
+
+    <!--mostrar total-->
+    <div class="">
+        <h2>Total. $ <span class="animated fadeIn"> {{total}} </span></h2>
+    </div>
+
+    <hr>
+
+
+    <button mat-raised-button type="submit" color="primary" class="ml-sm-5 col-sm-5"> Vender</button>
+    <button mat-raised-button color="warn" class="ml-sm-5 col-sm-5" (click)='reset() '>Cancelar</button>
+
+</form>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal animated fadeIn fast" role="dialog" [ngClass]="{'show ': showModal}" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Contenido Incompatible</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="showModal=false">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <img src="assets/img/to_adult.jpg" style="width: 30%;" alt="">
+                <p>Los sentimos, la pelicula <b>"{{ nombrePelisAux}}"</b>, solo es permitido para clientes mayores de 18 años. Escoge otra pelicula.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="showModal=false" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
